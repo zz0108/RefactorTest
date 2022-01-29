@@ -135,6 +135,11 @@ public class TennisTests
     private void ScoreShouldBe(string expected)
     {
         Assert.AreEqual(expected, _tennis.Score());
+    }
+
+    [TearDown]
+    public void Refresh()
+    {
         _tennis.Refresh();
     }
 }
