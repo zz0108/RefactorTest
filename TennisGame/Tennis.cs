@@ -7,79 +7,48 @@ public class Tennis
 
     public string Score()
     {
-        if (_firstPlayerScoreTimes == 0 && _secondPlayerScoreTimes == 0)
+        if (_firstPlayerScoreTimes <= 3 && _secondPlayerScoreTimes == 0)
         {
-            return "love all";
+            if(_firstPlayerScoreTimes == 0)
+                return "love all";
+            if(_firstPlayerScoreTimes == 1)
+                return "fifteen love";
+            if(_firstPlayerScoreTimes == 2)
+                return "thirty love";
+            if(_firstPlayerScoreTimes == 3)
+                return "forty love";
         }
 
-        if (_firstPlayerScoreTimes == 1 && _secondPlayerScoreTimes == 0)
+        if (_firstPlayerScoreTimes == 0 && _secondPlayerScoreTimes <= 3)
         {
-            return "fifteen love";
+            if(_secondPlayerScoreTimes == 1)
+                return "love fifteen";
+            if(_secondPlayerScoreTimes == 2)
+                return "love thirty";
+            if(_secondPlayerScoreTimes == 3)
+                return "love forty";
         }
 
-        if (_firstPlayerScoreTimes == 2 && _secondPlayerScoreTimes == 0)
+        if (_firstPlayerScoreTimes == _secondPlayerScoreTimes)
         {
-            return "thirty love";
+            if(_firstPlayerScoreTimes == 1)
+                return "fifteen all";
+            if(_firstPlayerScoreTimes == 2)
+                return "thirty all";
+            if(_firstPlayerScoreTimes == 3)
+                return "deuce";
+            if(_firstPlayerScoreTimes == 4)
+                return "deuce";
         }
 
-        if (_firstPlayerScoreTimes == 3 && _secondPlayerScoreTimes == 0)
+        if (Math.Abs(_firstPlayerScoreTimes - _secondPlayerScoreTimes) == 1)
         {
-            return "forty love";
+            return _firstPlayerScoreTimes > _secondPlayerScoreTimes ? "Joey adv" : "Tom adv";
         }
-
-        if (_firstPlayerScoreTimes == 0 && _secondPlayerScoreTimes == 1)
+        
+        if (Math.Abs(_firstPlayerScoreTimes - _secondPlayerScoreTimes) == 2)
         {
-            return "love fifteen";
-        }
-
-        if (_firstPlayerScoreTimes == 0 && _secondPlayerScoreTimes == 2)
-        {
-            return "love thirty";
-        }
-
-        if (_firstPlayerScoreTimes == 0 && _secondPlayerScoreTimes == 3)
-        {
-            return "love forty";
-        }
-
-        if (_firstPlayerScoreTimes == 1 && _secondPlayerScoreTimes == 1)
-        {
-            return "fifteen all";
-        }
-
-        if (_firstPlayerScoreTimes == 2 && _secondPlayerScoreTimes == 2)
-        {
-            return "thirty all";
-        }
-
-        if (_firstPlayerScoreTimes == 3 && _secondPlayerScoreTimes == 3)
-        {
-            return "deuce";
-        }
-
-        if (_firstPlayerScoreTimes == 4 && _secondPlayerScoreTimes == 4)
-        {
-            return "deuce";
-        }
-
-        if (_firstPlayerScoreTimes == 4 && _secondPlayerScoreTimes == 3)
-        {
-            return "Joey adv";
-        }
-
-        if (_firstPlayerScoreTimes == 3 && _secondPlayerScoreTimes == 4)
-        {
-            return "Tom adv";
-        }
-
-        if (_firstPlayerScoreTimes == 5 && _secondPlayerScoreTimes == 3)
-        {
-            return "Joey win";
-        }
-
-        if (_firstPlayerScoreTimes == 3 && _secondPlayerScoreTimes == 5)
-        {
-            return "Tom win";
+            return _firstPlayerScoreTimes > _secondPlayerScoreTimes ? "Joey win" : "Tom win";
         }
 
         return null;
