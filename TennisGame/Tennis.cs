@@ -7,33 +7,24 @@ public class Tennis
 
     public string Score()
     {
-        if (_firstPlayerScoreTimes == 0 || _secondPlayerScoreTimes == 0)
-        {
-            
-            switch (_firstPlayerScoreTimes)
-            {
-                case 1:
-                    return "fifteen love";
-                case 2:
-                    return "thirty love";
-                case 3:
-                    return "forty love";
-            }
+        return _firstPlayerScoreTimes != 0 && _secondPlayerScoreTimes != 0
+            ? IsDeuce(_firstPlayerScoreTimes, _secondPlayerScoreTimes) 
+                ? CheckDeuce() 
+                : CheckLeading()
+            : CheckPoint();
+    }
 
-            switch (_secondPlayerScoreTimes)
-            {
-                case 1:
-                    return "love fifteen";
-                case 2:
-                    return "love thirty";
-                case 3:
-                    return "love forty";
-            }
+    private string CheckPoint()
+    {
+        if (_firstPlayerScoreTimes == 1 || _secondPlayerScoreTimes == 1)
+            return _firstPlayerScoreTimes == 1 ? "fifteen love" : "love fifteen";
+        if (_firstPlayerScoreTimes == 2 || _secondPlayerScoreTimes == 2)
+            return _firstPlayerScoreTimes == 2 ? "thirty love" : "love thirty";
+        if (_firstPlayerScoreTimes == 3 || _secondPlayerScoreTimes == 3)
+            return _firstPlayerScoreTimes == 3 ? "forty love" : "love forty";
 
-            return "love all";
-        }
+        return "love all";
 
-        return IsDeuce(_firstPlayerScoreTimes,_secondPlayerScoreTimes) ? CheckDeuce() : CheckLeading();
     }
 
     private string CheckLeading()
