@@ -7,51 +7,50 @@ public class Tennis
 
     public string Score()
     {
-        if (_firstPlayerScoreTimes <= 3 && _secondPlayerScoreTimes == 0)
+        if (_firstPlayerScoreTimes == 0 || _secondPlayerScoreTimes == 0)
         {
-            if(_firstPlayerScoreTimes == 0)
-                return "love all";
-            if(_firstPlayerScoreTimes == 1)
-                return "fifteen love";
-            if(_firstPlayerScoreTimes == 2)
-                return "thirty love";
-            if(_firstPlayerScoreTimes == 3)
-                return "forty love";
+            
+            switch (_firstPlayerScoreTimes)
+            {
+                case 1:
+                    return "fifteen love";
+                case 2:
+                    return "thirty love";
+                case 3:
+                    return "forty love";
+            }
+
+            switch (_secondPlayerScoreTimes)
+            {
+                case 1:
+                    return "love fifteen";
+                case 2:
+                    return "love thirty";
+                case 3:
+                    return "love forty";
+            }
+
+            return "love all";
         }
 
-        if (_firstPlayerScoreTimes == 0 && _secondPlayerScoreTimes <= 3)
-        {
-            if(_secondPlayerScoreTimes == 1)
-                return "love fifteen";
-            if(_secondPlayerScoreTimes == 2)
-                return "love thirty";
-            if(_secondPlayerScoreTimes == 3)
-                return "love forty";
-        }
+        return IsDeuce(_firstPlayerScoreTimes,_secondPlayerScoreTimes) ? CheckDeuce() : CheckLeading();
+    }
 
-        if (_firstPlayerScoreTimes == _secondPlayerScoreTimes)
-        {
-            if(_firstPlayerScoreTimes == 1)
-                return "fifteen all";
-            if(_firstPlayerScoreTimes == 2)
-                return "thirty all";
-            if(_firstPlayerScoreTimes == 3)
-                return "deuce";
-            if(_firstPlayerScoreTimes == 4)
-                return "deuce";
-        }
+    private string CheckLeading()
+    {
+        return Math.Abs(_firstPlayerScoreTimes - _secondPlayerScoreTimes) == 1 ?
+            _firstPlayerScoreTimes > _secondPlayerScoreTimes ? "Joey adv" : "Tom adv" :
+            _firstPlayerScoreTimes > _secondPlayerScoreTimes ? "Joey win" : "Tom win";
+    }
 
-        if (Math.Abs(_firstPlayerScoreTimes - _secondPlayerScoreTimes) == 1)
-        {
-            return _firstPlayerScoreTimes > _secondPlayerScoreTimes ? "Joey adv" : "Tom adv";
-        }
-        
-        if (Math.Abs(_firstPlayerScoreTimes - _secondPlayerScoreTimes) == 2)
-        {
-            return _firstPlayerScoreTimes > _secondPlayerScoreTimes ? "Joey win" : "Tom win";
-        }
+    private string CheckDeuce()
+    {
+        return _firstPlayerScoreTimes < 3 ? _firstPlayerScoreTimes == 1 ? "fifteen all" : "thirty all" : "deuce";
+    }
 
-        return null;
+    private static bool IsDeuce(int firstPlayerScoreTimes, int secondPlayerScoreTimes)
+    {
+        return firstPlayerScoreTimes == secondPlayerScoreTimes;
     }
 
     public void FirstPlayerScore()
