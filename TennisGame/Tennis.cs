@@ -7,7 +7,7 @@ public class Tennis
     private string _player1Name = "Joey";
     private string _player2Name = "Tom";
 
-    private Dictionary<int, string> scoreTable = new Dictionary<int, string>()
+    private static Dictionary<int, string> scoreTable = new Dictionary<int, string>()
     {
         { 0, "love" },
         { 1, "fifteen" },
@@ -15,7 +15,7 @@ public class Tennis
         { 3, "forty" }
     };
 
-    private Dictionary<Status, string> statusTable = new Dictionary<Status, string>()
+    private static Dictionary<Status, string> statusTable = new Dictionary<Status, string>()
     {
         { Status.Adv, "adv" },
         { Status.Win, "win" },
