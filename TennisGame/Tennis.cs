@@ -4,11 +4,38 @@ public class Tennis
 {
     private int _secondPlayerScoreTimes;
     private int _firstPlayerScoreTimes;
+    private string _player1Name = "Joey";
+    private string _player2Name = "Tom";
+
+    private Dictionary<int, string> scoreTable = new Dictionary<int, string>()
+    {
+        { 0, "love" },
+        { 1, "fifteen" },
+        { 2, "thirty" },
+        { 3, "forty" }
+    };
+
+    private Dictionary<Status, string> statusTable = new Dictionary<Status, string>()
+    {
+        { Status.Adv, "adv" },
+        { Status.Win, "win" },
+        { Status.All, "all" },
+        { Status.Deuce, "deuce" },
+        { Status.Blank, " " }
+    };
+    private enum Status
+    {
+        Adv,
+        Win,
+        All,
+        Deuce,
+        Blank
+    }
 
     public string Score()
     {
-        return _firstPlayerScoreTimes != 0 && _secondPlayerScoreTimes != 0
-            ? IsDeuce(_firstPlayerScoreTimes, _secondPlayerScoreTimes) 
+        return CheckPointIsNotLoveAll()
+            ? IsDeuce() 
                 ? CheckDeuce() 
                 : CheckLeading()
             : CheckPoint();
@@ -16,32 +43,52 @@ public class Tennis
 
     private string CheckPoint()
     {
-        if (_firstPlayerScoreTimes == 1 || _secondPlayerScoreTimes == 1)
-            return _firstPlayerScoreTimes == 1 ? "fifteen love" : "love fifteen";
-        if (_firstPlayerScoreTimes == 2 || _secondPlayerScoreTimes == 2)
-            return _firstPlayerScoreTimes == 2 ? "thirty love" : "love thirty";
-        if (_firstPlayerScoreTimes == 3 || _secondPlayerScoreTimes == 3)
-            return _firstPlayerScoreTimes == 3 ? "forty love" : "love forty";
+        return CheckPointIsLoveAll() ? IsAll() : CombinePostbackText();
+    }
 
-        return "love all";
+    private bool CheckPointIsLoveAll()
+    {
+        return _firstPlayerScoreTimes == 0 && _secondPlayerScoreTimes == 0;
+    }
+    
+    private bool CheckPointIsNotLoveAll()
+    {
+        return _firstPlayerScoreTimes != 0 && _secondPlayerScoreTimes != 0;
+    }
 
+    private string CombinePostbackText()
+    {
+        return scoreTable[_firstPlayerScoreTimes] + statusTable[Status.Blank] + scoreTable[_secondPlayerScoreTimes];
     }
 
     private string CheckLeading()
     {
-        return Math.Abs(_firstPlayerScoreTimes - _secondPlayerScoreTimes) == 1 ?
-            _firstPlayerScoreTimes > _secondPlayerScoreTimes ? "Joey adv" : "Tom adv" :
-            _firstPlayerScoreTimes > _secondPlayerScoreTimes ? "Joey win" : "Tom win";
+        return PlayerLeading() + statusTable[Status.Blank] + IsAdvOrWin();
     }
 
+    private string IsAdvOrWin()
+    {
+        return Math.Abs(_firstPlayerScoreTimes - _secondPlayerScoreTimes) == 1 ? statusTable[Status.Adv] : statusTable[Status.Win];
+    }
+
+    private string PlayerLeading()
+    {
+        return _firstPlayerScoreTimes > _secondPlayerScoreTimes ? _player1Name : _player2Name;
+    }
+    
     private string CheckDeuce()
     {
-        return _firstPlayerScoreTimes < 3 ? _firstPlayerScoreTimes == 1 ? "fifteen all" : "thirty all" : "deuce";
+        return _firstPlayerScoreTimes < 3 ? IsAll() : statusTable[Status.Deuce];
     }
 
-    private static bool IsDeuce(int firstPlayerScoreTimes, int secondPlayerScoreTimes)
+    private string IsAll()
     {
-        return firstPlayerScoreTimes == secondPlayerScoreTimes;
+        return scoreTable[_firstPlayerScoreTimes] + statusTable[Status.Blank] + statusTable[Status.All];
+    }
+
+    private bool IsDeuce()
+    {
+        return _firstPlayerScoreTimes == _secondPlayerScoreTimes;
     }
 
     public void FirstPlayerScore()
