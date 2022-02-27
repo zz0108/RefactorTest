@@ -1,71 +1,88 @@
-﻿using System.Runtime.InteropServices.ComTypes;
-
-namespace TennisGame;
+﻿namespace TennisGame;
 
 public class Tennis
 {
     private int _secondPlayerScoreTimes;
     private int _firstPlayerScoreTimes;
 
-    private static readonly Dictionary<int, string> scoreCompare = new Dictionary<int, string>()
-    {
-        { 0, "love" },
-        { 1, "fifteen" },
-        { 2, "thirty" },
-        { 3, "forty" },
-        { 4, "adv" },
-        { 5, "win" }
-    };
-
     public string Score()
     {
+        if (_firstPlayerScoreTimes == 0 && _secondPlayerScoreTimes == 0)
+        {
+            return "love all";
+        }
 
-        if (IsDeuce()) return DeuceOrEqual();
-        
-        if (IsLove()) return CountScore();
-        
-        return IsLeading() ? LeadingScore() : string.Empty;
-    }
+        if (_firstPlayerScoreTimes == 1 && _secondPlayerScoreTimes == 0)
+        {
+            return "fifteen love";
+        }
 
-    private string LeadingScore()
-    {
-        return Math.Abs(_firstPlayerScoreTimes - _secondPlayerScoreTimes) == 1 ? CheckAdvName() : CheckWinnerName();
-    }
+        if (_firstPlayerScoreTimes == 2 && _secondPlayerScoreTimes == 0)
+        {
+            return "thirty love";
+        }
 
-    private bool IsLeading()
-    {
-        return Math.Abs(_firstPlayerScoreTimes - _secondPlayerScoreTimes) > 0;
-    }
+        if (_firstPlayerScoreTimes == 3 && _secondPlayerScoreTimes == 0)
+        {
+            return "forty love";
+        }
 
-    private string CountScore()
-    {
-        return $"{scoreCompare[_firstPlayerScoreTimes]} {scoreCompare[_secondPlayerScoreTimes]}";
-    }
+        if (_firstPlayerScoreTimes == 0 && _secondPlayerScoreTimes == 1)
+        {
+            return "love fifteen";
+        }
 
-    private bool IsLove()
-    {
-        return _firstPlayerScoreTimes == 0 || _secondPlayerScoreTimes == 0;
-    }
+        if (_firstPlayerScoreTimes == 0 && _secondPlayerScoreTimes == 2)
+        {
+            return "love thirty";
+        }
 
-    private string DeuceOrEqual()
-    {
-        return _firstPlayerScoreTimes > 2 ? "deuce" : $"{scoreCompare[_firstPlayerScoreTimes]} all";
-    }
+        if (_firstPlayerScoreTimes == 0 && _secondPlayerScoreTimes == 3)
+        {
+            return "love forty";
+        }
 
-    private bool IsDeuce()
-    {
-        return _firstPlayerScoreTimes == _secondPlayerScoreTimes;
-    }
-        
+        if (_firstPlayerScoreTimes == 1 && _secondPlayerScoreTimes == 1)
+        {
+            return "fifteen all";
+        }
 
-    private string CheckAdvName()
-    {
-        return _firstPlayerScoreTimes > _secondPlayerScoreTimes ? "Joey adv" : "Tom adv";
-    }
+        if (_firstPlayerScoreTimes == 2 && _secondPlayerScoreTimes == 2)
+        {
+            return "thirty all";
+        }
 
-    private string CheckWinnerName()
-    {
-        return _firstPlayerScoreTimes > _secondPlayerScoreTimes ? "Joey win" : "Tom win";
+        if (_firstPlayerScoreTimes == 3 && _secondPlayerScoreTimes == 3)
+        {
+            return "deuce";
+        }
+
+        if (_firstPlayerScoreTimes == 4 && _secondPlayerScoreTimes == 4)
+        {
+            return "deuce";
+        }
+
+        if (_firstPlayerScoreTimes == 4 && _secondPlayerScoreTimes == 3)
+        {
+            return "Joey adv";
+        }
+
+        if (_firstPlayerScoreTimes == 3 && _secondPlayerScoreTimes == 4)
+        {
+            return "Tom adv";
+        }
+
+        if (_firstPlayerScoreTimes == 5 && _secondPlayerScoreTimes == 3)
+        {
+            return "Joey win";
+        }
+
+        if (_firstPlayerScoreTimes == 3 && _secondPlayerScoreTimes == 5)
+        {
+            return "Tom win";
+        }
+
+        return null;
     }
 
     public void FirstPlayerScore()
